@@ -1,6 +1,9 @@
 import 'dart:io';
 import 'package:chatapp/model/combined.dart';
+import 'package:chatapp/viewmodel/chat/callviewmodel.dart';
 import 'package:chatapp/viewmodel/chat/insertchatviewmodel.dart';
+import 'package:chatapp/widgets/customappbar.dart';
+import 'package:chatapp/widgets/homescreen/tabbar/callinsidetabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -16,15 +19,55 @@ class ChatPageScreen extends StatefulWidget {
 
 class _ChatPageScreenState extends State<ChatPageScreen> {
   @override
+  void initState() {
+    // TODO: implement initState
+
+    CallViewModel callProvider =
+        Provider.of<CallViewModel>(context, listen: false);
+    callProvider.receiverid = widget.receiverIid!;
+    callProvider.senderid = widget.senderIid!;
+    callProvider.getReceiverNumber();
+    callProvider.getSenderNumber();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ChatProvider provider = Provider.of<ChatProvider>(context, listen: false);
+    CallViewModel callProvider =
+        Provider.of<CallViewModel>(context, listen: false);
     provider.senderId = widget.senderIid!;
     provider.receiverId = widget.receiverIid!;
 
     return Scaffold(
         appBar: AppBar(
-          title: Text("Chat"), //otherUser.name!
+          shadowColor: Colors.white70,
+          backgroundColor: Colors.white54,
+          title: Text("Chat", style: TextStyle(color: Colors.black)),
+          leading: BackButton(color: Colors.black),
+          actions: [
+            GestureDetector(
+              onTap: () {
+                //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Call()));
+                callProvider.callHistoryAdd();
+                callProvider.makePhoneCall();
+              },
+              child: Icon(
+                Icons.call,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(
+              width: 20,
+            )
+          ], //otherUser.name!
         ),
+
+        /*CustomAppBar(
+          content: "Chat",
+          ismessage: true,
+        ),*/
+
         body: FutureBuilder(
           future: provider.messageFetch(),
           builder: (context, snapshot) {
@@ -39,6 +82,7 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
                       itemBuilder: (context, index) {
                         final message = data1[index];
                         final isMe = message.senderid == widget.senderIid;
+                        callProvider.receiverno = message.phoneno!;
 
                         return _buildMessageBubble(message, isMe);
                       },
@@ -97,7 +141,7 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
                 ],
               );
             }
-            return Text("Sorry");
+            return Center(child: CircularProgressIndicator());
           },
         ));
   }
@@ -112,9 +156,14 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
           Container(
             margin: EdgeInsets.only(right: 8.0),
             child: CircleAvatar(
-              backgroundImage: FileImage(
+              backgroundImage: message.imageUrl == null
+                  ? NetworkImage('https://i.stack.imgur.com/l60Hf.png')
+                  : FileImage(
+                      File(message.imageUrl!),
+                    ) as ImageProvider,
+              /*FileImage(
                 File(message.imageUrl!),
-              ),
+              ),*/
               radius: 20,
             ),
           ),

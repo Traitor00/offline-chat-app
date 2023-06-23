@@ -45,9 +45,14 @@ class MessageinsideTabbar extends StatelessWidget {
                   },
                   title: Text(messages.name!),
                   leading: CircleAvatar(
-                    backgroundImage: FileImage(
+                    backgroundImage: messages.imageUrl == null
+                        ? NetworkImage('https://i.stack.imgur.com/l60Hf.png')
+                        : FileImage(
+                            File(messages.imageUrl!),
+                          ) as ImageProvider,
+                    /*FileImage(
                       File(messages.imageUrl!),
-                    ),
+                    ),*/
                     radius: 20,
                   ),
                   subtitle: Row(

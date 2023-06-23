@@ -52,6 +52,7 @@ dev_dependencies:
   image_picker: ^0.8.9
   timeago: ^3.4.0
   grouped_list: ^5.1.2
+  url_launcher: ^6.1.11
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

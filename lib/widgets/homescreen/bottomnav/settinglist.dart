@@ -11,7 +11,7 @@ class SettingList extends StatelessWidget {
     HomePageViewModel messageProvider =
         Provider.of<HomePageViewModel>(context, listen: false);
     return Scaffold(
-        appBar: CustomAppBar(content: "Setting"),
+        appBar: CustomAppBar(content: "Setting", ismessage: false),
         body: FutureBuilder(
             future: messageProvider.fetchUserProfile(),
             builder: (context, snapshot) {

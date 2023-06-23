@@ -12,6 +12,7 @@ class SignupViewModel extends ChangeNotifier {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController moilenoController = TextEditingController();
 
   var imagetemporary;
 
@@ -28,6 +29,7 @@ class SignupViewModel extends ChangeNotifier {
     String name = nameController.text;
     String email = emailController.text;
     String password = passwordController.text;
+    String phoneno = moilenoController.text;
 
     /// Validate username and password
     if (name.isEmpty || password.isEmpty || email.isEmpty) {
@@ -51,7 +53,11 @@ class SignupViewModel extends ChangeNotifier {
 
     DatabaseHelper dbHelper = DatabaseHelper();
     final User user = User(
-        name: name, email: email, password: password, imageUrl: imagetemporary);
+        name: name,
+        email: email,
+        password: password,
+        imageUrl: imagetemporary,
+        phoneno: phoneno);
     await dbHelper.insertUser(user);
 
     /// Navigate to SignIn page

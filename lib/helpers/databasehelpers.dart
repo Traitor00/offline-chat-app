@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:chatapp/model/callhistory.dart';
 import 'package:chatapp/model/combined.dart';
 import 'package:chatapp/model/message.dart';
 import 'package:chatapp/model/user.dart';
@@ -9,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as path;
 
+/// Database Helper Class
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper.internal();
 
@@ -25,9 +27,12 @@ class DatabaseHelper {
     return _database!;
   }
 
+  ///initializing Database
   Future<Database> _initDatabase() async {
     var downloadsDirectory = await getExternalStorageDirectory();
     String customDatabasePath = '${downloadsDirectory!.path}/my_database.db';
+
+    /// to send database to android data folders
 
     /*String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'my_database.db');*/
@@ -52,28 +57,39 @@ class DatabaseHelper {
       CREATE TABLE user(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         email TEXT,
+        phoneno VARCHAR,
         password TEXT,
         name TEXT,
         imageurl TEXT
       )
       ''');
+
+    await db.execute('''
+      CREATE TABLE callhistory(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        receiverno VARCHAR,
+        callerno VARCHAR,
+        calledat TEXT
+        
+      )
+      ''');
   }
 
-  //Insert Message
+  ///Insert Message
   Future<int> insertMessage(Message message) async {
     final Database db = await database;
 
     return await db.insert('message', message.toMap());
   }
 
-//create user
+  ///create user
   Future<int> insertUser(User user) async {
     final Database db = await database;
 
     return await db.insert('user', user.toMap());
   }
 
-//get login
+  ///get login
   Future<List<User>> isUserExist(String email, String password) async {
     /*final String sql =
         "SELECT  * FrDISTINCTom $tableUser WHERE $columnEmail=${user.email} AND $columnPassword=${user.password}";*/
@@ -88,7 +104,7 @@ class DatabaseHelper {
     });
   }
 
-//Fetch all Users
+  ///Fetch all Users
   Future<List<User>> getAllUsers(int id) async {
     Database db = await database;
     final List<Map<String, dynamic>> maps =
@@ -99,7 +115,7 @@ class DatabaseHelper {
     });
   }
 
-//Fetch User with given Id
+  ///Fetch User with given Id
   Future<User?> getUserById(int id) async {
     Database db = await database;
 
@@ -117,7 +133,8 @@ class DatabaseHelper {
     return null;
   }
 
-  Future<String?> getUserName(int id) async {
+  ///to get users phone number
+  Future<String?> getUserNumer(int id) async {
     Database db = await database;
 
     final List<Map<String, dynamic>> maps = await db.query(
@@ -128,13 +145,13 @@ class DatabaseHelper {
     );
 
     if (maps.isNotEmpty) {
-      return User.fromMap(maps.first).name;
+      return User.fromMap(maps.first).phoneno;
     }
 
     return null;
   }
 
-//Fetch username ,image url, message ,updated at
+  ///Fetch username ,image url, message ,updatedat to message tab in Home page
   Future<List<Combined>> fetchMessagesSortedByDate(int userId) async {
     Database db = await database;
 /*final String query="SELECT user.name, user.imageurl, message.message, message.updatedat,message.recieverid,message.senderid
@@ -160,12 +177,12 @@ INNER JOIN (
     });
   }
 
-  //Fetch Message conversation between sender and receiver
+  ///Fetch Message conversation between sender and receiver and display in chat page
   Future<List<Combined>> fetchConversation(int senderId, int recieverid) async {
     Database db = await database;
 
     final List<Map<String, dynamic>> result = await db.rawQuery('''
-    SELECT user.name, user.imageurl, message.message, message.updatedat,message.recieverid,message.senderid,message.img
+    SELECT user.name, user.imageurl,user.phoneno, message.message, message.updatedat,message.recieverid,message.senderid,message.img
     FROM user
     INNER JOIN message ON user.id = message.senderid
     WHERE (message.senderid = $senderId AND message.recieverid=$recieverid) OR (message.senderid=$recieverid AND message.recieverid=$senderId) 
@@ -174,6 +191,25 @@ INNER JOIN (
 
     return List.generate(result.length, (i) {
       return Combined.fromMap(result[i]);
+    });
+  }
+
+  /// #Call History
+  /// create CAll History
+  Future<int> createCallHistory(CallHistory callHistory) async {
+    final Database db = await database;
+
+    return await db.insert('callhistory', callHistory.toMap());
+  }
+
+  ///Get Call History
+  Future<List<CallHistory>> getCallHistory(String callerno) async {
+    Database db = await database;
+    final List<Map<String, dynamic>> maps = await db.rawQuery(
+        ''' SELECT * FROM callhistory where callerno=$callerno ORDER BY calledat DESC''');
+
+    return List.generate(maps.length, (index) {
+      return CallHistory.fromMap(maps[index]);
     });
   }
 }

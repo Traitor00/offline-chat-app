@@ -4,6 +4,7 @@ class User {
   String? password;
   String? name;
   String? imageUrl;
+  String? phoneno;
 
   User({
     this.id,
@@ -11,6 +12,7 @@ class User {
     this.password,
     this.name,
     this.imageUrl,
+    this.phoneno,
   });
 
   Map<String, dynamic> toMap() {
@@ -20,6 +22,7 @@ class User {
       'password': password,
       'name': name,
       'imageurl': imageUrl,
+      'phoneno': phoneno,
     };
   }
 
@@ -30,6 +33,7 @@ class User {
       password: map['password'],
       name: map['name'],
       imageUrl: map['imageurl'],
+      phoneno: map['phoneno'],
     );
   }
 }

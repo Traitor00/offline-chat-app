@@ -29,6 +29,12 @@ class SignupPage extends StatelessWidget {
               ),
               Consumer<SignupViewModel>(
                 builder: (context, model, _) => TextField(
+                  controller: model.moilenoController,
+                  decoration: InputDecoration(labelText: 'mobileno'),
+                ),
+              ),
+              Consumer<SignupViewModel>(
+                builder: (context, model, _) => TextField(
                   controller: model.passwordController,
                   decoration: InputDecoration(labelText: 'Password'),
                   obscureText: true,

@@ -1,6 +1,7 @@
 import 'package:chatapp/view/Homepage.dart';
 import 'package:chatapp/view/signinpage.dart';
 import 'package:chatapp/view/signuppage.dart';
+import 'package:chatapp/viewmodel/chat/callviewmodel.dart';
 import 'package:chatapp/viewmodel/chat/insertchatviewmodel.dart';
 import 'package:chatapp/viewmodel/homepage/navbarviewmodel/navbarviewmodel.dart';
 import 'package:chatapp/viewmodel/homepage/homepageviewmodel.dart';
@@ -21,6 +22,7 @@ void main() {
           create: (_) => BottomNavigationBarProvider()),
       ChangeNotifierProvider<UserViewModel>(create: (_) => UserViewModel()),
       ChangeNotifierProvider<ChatProvider>(create: (_) => ChatProvider()),
+      ChangeNotifierProvider<CallViewModel>(create: (_) => CallViewModel()),
     ],
     child: const MyApp(),
 
