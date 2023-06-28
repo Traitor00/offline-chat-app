@@ -1,6 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:chatapp/helpers/databasehelpers.dart';
 import 'package:chatapp/model/user.dart';
-import 'package:chatapp/view/Homepage.dart';
+import 'package:chatapp/view/homepage.dart';
 import 'package:flutter/material.dart';
 
 class SignInViewModel extends ChangeNotifier {
@@ -15,7 +17,7 @@ class SignInViewModel extends ChangeNotifier {
   void signIn(BuildContext context) async {
     String email = emailController.text;
     String password = passwordController.text;
-    final String info = "Usernot found";
+    const String info = "Usernot found";
 
     ///validate username and password
     if (email.isEmpty || password.isEmpty) {

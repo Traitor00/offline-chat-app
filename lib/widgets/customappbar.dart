@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  String? content;
-  bool ismessage;
-  CustomAppBar({this.content, required this.ismessage, super.key});
+  final String? content;
+  final bool ismessage;
+  const CustomAppBar({this.content, required this.ismessage, super.key});
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
@@ -23,7 +21,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         ismessage
             ? Row(
-                children: [
+                children: const [
                   Icon(
                     Icons.call,
                     color: Colors.black,
@@ -34,7 +32,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ],
               )
             : Row(
-                children: [
+                children: const [
                   Icon(
                     Icons.search,
                     color: Colors.black,

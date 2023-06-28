@@ -35,8 +35,8 @@ class UserList extends StatelessWidget {
                 return ListTile(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            ChatPageScreen(provideruser.userid, user.id)));
+                        builder: (context) => ChatPageScreen(
+                            provideruser.userid, user.id, user.name)));
                   },
                   title: Text("${user.name}"),
                   leading: CircleAvatar(

@@ -24,6 +24,7 @@ class SignInPage extends StatelessWidget {
               ),
             ),
             Consumer<SignInViewModel>(
+              ///Build a widget tree based on the value from a provider.
               builder: (context, model, _) => TextField(
                 controller: model.passwordController,
                 decoration: InputDecoration(labelText: 'Password'),

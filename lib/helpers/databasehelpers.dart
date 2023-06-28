@@ -3,12 +3,9 @@ import 'package:chatapp/model/callhistory.dart';
 import 'package:chatapp/model/combined.dart';
 import 'package:chatapp/model/message.dart';
 import 'package:chatapp/model/user.dart';
-import 'package:path/path.dart';
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
-
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart' as path;
 
 /// Database Helper Class
 class DatabaseHelper {
@@ -99,7 +96,9 @@ class DatabaseHelper {
 
     //int iid = id[0] as int;
     return List.generate(maps.length, (i) {
-      print(maps[i]);
+      if (kDebugMode) {
+        print(maps[i]);
+      }
       return User.fromMap(maps[i]);
     });
   }

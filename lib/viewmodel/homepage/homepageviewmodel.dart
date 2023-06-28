@@ -1,6 +1,5 @@
 import 'package:chatapp/helpers/databasehelpers.dart';
 import 'package:chatapp/model/combined.dart';
-import 'package:chatapp/model/message.dart';
 import 'package:chatapp/model/user.dart';
 import 'package:flutter/material.dart';
 

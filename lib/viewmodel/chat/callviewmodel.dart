@@ -1,7 +1,6 @@
 import 'package:chatapp/helpers/databasehelpers.dart';
 import 'package:chatapp/model/callhistory.dart';
-import 'package:flutter/material.dart';
-import 'package:url_launcher/link.dart';
+import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CallViewModel extends ChangeNotifier {
@@ -29,18 +28,24 @@ class CallViewModel extends ChangeNotifier {
     receiverno = _receiverno!;
   }
 
+  ///Fuction to get receivers mobile no
   Future<String?> getReceiverNumber() async {
     DatabaseHelper dbHelper = DatabaseHelper();
     _receiverno = await dbHelper.getUserNumer(receiverid);
-    print("receiver no: ${_receiverno}");
+    if (kDebugMode) {
+      print("receiver no: $_receiverno");
+    }
 
     return await dbHelper.getUserNumer(receiverid);
   }
 
+  ///to get senders number
   Future<String?> getSenderNumber() async {
     DatabaseHelper dbHelper = DatabaseHelper();
     _callerno = await dbHelper.getUserNumer(senderid);
-    print("caller no: ${_callerno}");
+    if (kDebugMode) {
+      print("caller no: $_callerno");
+    }
     return await dbHelper.getUserNumer(senderid);
   }
 
@@ -50,10 +55,13 @@ class CallViewModel extends ChangeNotifier {
       scheme: 'tel',
       path: receiverno,
     );
-    print("make phonecall:${receiverno}");
+    if (kDebugMode) {
+      print("make phonecall:$receiverno");
+    }
     await launchUrl(launchUri);
   }
 
+  ///To add call history to database
   void callHistoryAdd() async {
     DatabaseHelper dbHelper = DatabaseHelper();
     final CallHistory callHistory = CallHistory(

@@ -1,21 +1,18 @@
 import 'dart:io';
 
 import 'package:chatapp/view/chatpage.dart';
-import 'package:chatapp/viewmodel/chat/insertchatviewmodel.dart';
 import 'package:chatapp/viewmodel/homepage/homepageviewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class MessageinsideTabbar extends StatelessWidget {
-  MessageinsideTabbar({super.key});
+  const MessageinsideTabbar({super.key});
 
   @override
   Widget build(BuildContext context) {
     HomePageViewModel provider =
         Provider.of<HomePageViewModel>(context, listen: false);
-    ChatProvider userProvider =
-        Provider.of<ChatProvider>(context, listen: false);
 
     return FutureBuilder(
       future: provider.messageFetch(),
@@ -40,8 +37,8 @@ class MessageinsideTabbar extends StatelessWidget {
                 return ListTile(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ChatPageScreen(
-                            provider.userId, messages.recieverid)));
+                        builder: (context) => ChatPageScreen(provider.userId,
+                            messages.recieverid, messages.name)));
                   },
                   title: Text(messages.name!),
                   leading: CircleAvatar(
@@ -58,9 +55,17 @@ class MessageinsideTabbar extends StatelessWidget {
                   subtitle: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(messages.message!),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.56,
+                        child: Text(
+                          messages.message!,
+                          softWrap: false,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                       Text(
-                        timeago.format(time),
+                        "${timeago.format(time, locale: 'en_short')} ago",
                       ),
                     ],
                   ),

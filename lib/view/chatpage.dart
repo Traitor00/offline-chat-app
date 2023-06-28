@@ -1,17 +1,17 @@
-import 'dart:io';
-import 'package:chatapp/model/combined.dart';
 import 'package:chatapp/viewmodel/chat/callviewmodel.dart';
 import 'package:chatapp/viewmodel/chat/insertchatviewmodel.dart';
-import 'package:chatapp/widgets/customappbar.dart';
-import 'package:chatapp/widgets/homescreen/tabbar/callinsidetabbar.dart';
+import 'package:chatapp/widgets/message/buildmessagebuble.dart';
+import 'package:chatapp/widgets/message/chatpagebcontainer.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class ChatPageScreen extends StatefulWidget {
-  int? senderIid;
-  int? receiverIid;
-  ChatPageScreen(this.senderIid, this.receiverIid);
+  final int? senderIid;
+  final int? receiverIid;
+  final String? name;
+  const ChatPageScreen(this.senderIid, this.receiverIid, this.name,
+      {super.key});
 
   @override
   State<ChatPageScreen> createState() => _ChatPageScreenState();
@@ -20,8 +20,6 @@ class ChatPageScreen extends StatefulWidget {
 class _ChatPageScreenState extends State<ChatPageScreen> {
   @override
   void initState() {
-    // TODO: implement initState
-
     CallViewModel callProvider =
         Provider.of<CallViewModel>(context, listen: false);
     callProvider.receiverid = widget.receiverIid!;
@@ -37,117 +35,166 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
     CallViewModel callProvider =
         Provider.of<CallViewModel>(context, listen: false);
     provider.senderId = widget.senderIid!;
+
+    ///sending senderid and receiverid to chatprovider and setting
     provider.receiverId = widget.receiverIid!;
 
     return Scaffold(
-        appBar: AppBar(
-          shadowColor: Colors.white70,
-          backgroundColor: Colors.white54,
-          title: Text("Chat", style: TextStyle(color: Colors.black)),
-          leading: BackButton(color: Colors.black),
-          actions: [
-            GestureDetector(
-              onTap: () {
-                //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Call()));
-                callProvider.callHistoryAdd();
-                callProvider.makePhoneCall();
-              },
-              child: Icon(
-                Icons.call,
-                color: Colors.black,
-              ),
+      appBar: AppBar(
+        shadowColor: Colors.white70,
+        backgroundColor: Colors.white54,
+        title: Text(widget.name!, style: TextStyle(color: Colors.black)),
+        leading: BackButton(color: Colors.black),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Call()));
+              callProvider.callHistoryAdd();
+              callProvider.makePhoneCall();
+            },
+            child: Icon(
+              Icons.call,
+              color: Colors.black,
             ),
-            SizedBox(
-              width: 20,
-            )
-          ], //otherUser.name!
-        ),
+          ),
+          SizedBox(
+            width: 20,
+          )
+        ], //otherUser.name!
+      ),
 
-        /*CustomAppBar(
+      /*CustomAppBar(
           content: "Chat",
           ismessage: true,
         ),*/
 
-        body: FutureBuilder(
-          future: provider.messageFetch(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final data1 = snapshot.data;
-              return Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      reverse: true,
-                      itemCount: data1!.length,
-                      itemBuilder: (context, index) {
-                        final message = data1[index];
-                        final isMe = message.senderid == widget.senderIid;
-                        callProvider.receiverno = message.phoneno!;
+      body: FutureBuilder(
+        future: provider.messageFetch(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final data1 = snapshot.data;
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    reverse: true,
+                    itemCount: data1!.length,
+                    itemBuilder: (context, index) {
+                      final message = data1[index];
 
-                        return _buildMessageBubble(message, isMe);
-                      },
-                    ),
+                      ///bool to check whether sender i.e I am sending or person on other end
+                      final isMe = message.senderid == widget.senderIid;
+                      callProvider.receiverno = message.phoneno!;
+
+                      ///We will creating a bool which will check whether the
+                      ///current user and next user are same and if their
+                      ///time difference is less than 1 min
+                      ///  convert String date  time to Datetime
+                      if (kDebugMode) {
+                        print("${data1.length} : ${index - 1}");
+                      }
+                      final bool continuousMessage = data1.length < (index + 2)
+                          ? false
+                          : message.senderid == data1[index + 1].senderid &&
+                              DateTime.parse(message.updatedat!)
+                                      .difference(DateTime.parse(
+                                          data1[index + 1].updatedat!))
+                                      .inMinutes <=
+                                  1;
+
+                      if (kDebugMode) {
+                        print(continuousMessage);
+                      }
+
+                      /// message bubble
+                      return BuildMessageBuble(
+                        continuousMessage: continuousMessage,
+                        isMe: isMe,
+                        message: message,
+                      );
+                    },
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              provider.getimage();
-                              provider.clearSelectedImage();
-                            },
-                            icon: Icon(Icons.add_a_photo)),
-                        Expanded(
-                          child: TextField(
-                            controller: provider.messageController,
-                            decoration: InputDecoration.collapsed(
-                              hintText: 'Type your message...',
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                            enableFeedback: true,
-                            onPressed: () {
-                              provider.senderId = widget.receiverIid!;
-                              provider.receiverId = widget.senderIid!;
-                            },
-                            icon: Icon(
-                              Icons.switch_right_sharp,
-                            )),
-                        IconButton(
-                          icon: Icon(Icons.send),
-                          onPressed: () {
-                            provider.doChat(context);
-                            setState(() {
-                              provider.messageFetch();
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            }
-            return Center(child: CircularProgressIndicator());
-          },
-        ));
+                ),
+
+                ///widget class to show icons and textfields
+                ChatPgBtmContainer(
+                  receiverIid: widget.receiverIid,
+                  senderIid: widget.senderIid,
+                  onPressed: () {
+                    provider.doChat();
+                    setState(() {
+                      provider.messageFetch();
+                    });
+                  },
+                )
+              ],
+            );
+          }
+          return Center(child: CircularProgressIndicator());
+        },
+      ),
+    );
   }
+}
 
-  Widget _buildMessageBubble(Combined message, bool isMe) {
+
+// Container(
+                //   padding: EdgeInsets.symmetric(horizontal: 8.0),
+                //   decoration: BoxDecoration(
+                //     color: Colors.white,
+                //     boxShadow: [
+                //       BoxShadow(
+                //         color: Colors.grey.withOpacity(0.5),
+                //         spreadRadius: 1,
+                //         blurRadius: 5,
+                //         //offset: Offset(0, 2),
+                //       ),
+                //     ],
+                //   ),
+                //   child: Row(
+                //     children: [
+                //       IconButton(
+                //           onPressed: () {
+                //             provider.getimage();
+                //             provider.clearSelectedImage();
+                //           },
+                //           icon: Icon(Icons.add_a_photo)),
+                //       Expanded(
+                //         child: TextField(
+                //           controller: provider.messageController,
+                //           decoration: InputDecoration.collapsed(
+                //             hintText: 'Type your message...',
+                //           ),
+                //         ),
+                //       ),
+                //       IconButton(
+                //           enableFeedback: true,
+                //           onPressed: () {
+                //             provider.senderId = widget.receiverIid!;
+                //             provider.receiverId = widget.senderIid!;
+                //           },
+                //           icon: Icon(
+                //             Icons.switch_right_sharp,
+                //           )),
+                //       IconButton(
+                //         icon: Icon(Icons.send),
+                //         onPressed: () {
+                //           provider.doChat();
+                //           setState(() {
+                //             provider.messageFetch();
+                //           });
+                //         },
+                //       ),
+                //     ],
+                //   ),
+                // ),
+  /*Widget _buildMessageBubble(
+      Combined message, bool isMe, bool continuousMessage) {
+    //print("_buildMessageBubble called");
     final DateTime time = DateTime.parse(message.updatedat!);
+    final DateTime time1 = DateTime.parse(message.updatedat!);
+    // String formattedTime = DateFormat.jm().format(time);
+    // String formattedTime1 = DateFormat.jm().format(time1);
 
     return Row(
       mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -190,38 +237,22 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
                         )
                       ],
                     ))
-                : Container(
-                    padding: EdgeInsets.all(8.0),
-                    margin:
-                        EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-                    decoration: BoxDecoration(
-                      color: isMe ? Colors.blue[100] : Colors.grey[300],
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: isMe
-                          ? CrossAxisAlignment.end
-                          : CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          message.message!,
-                          maxLines: 3,
-                          style: TextStyle(
-                            fontSize: 16.0,
-                          ),
-                        ),
-                        SizedBox(height: 4.0),
-                        Text(
-                          "${timeago.format(time, locale: 'en_short')} ago",
-                          style: TextStyle(
-                              fontSize: 12.0, color: Colors.grey[600]),
-                        ),
-                      ],
-                    ),
-                  ),
+                : message.message!.startsWith("https")
+                    ? UrlPreviewMsg(
+                        isMe: isMe,
+                        url: message.message,
+                        continuousMessage: continuousMessage,
+                        message: message,
+                      )
+                    : CustomMessageContainer(
+                        continuousMessage: continuousMessage,
+                        isMe: isMe,
+                        message: message,
+                      )
           ],
         )
       ],
     );
   }
 }
+*/

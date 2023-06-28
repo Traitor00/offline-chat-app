@@ -21,7 +21,7 @@ class ChatProvider extends ChangeNotifier {
 
   ///Text Editing Controller for message textfield
   TextEditingController messageController = TextEditingController();
-  var imagetemporary;
+  dynamic imagetemporary;
 
   ///Function to pick Image
   Future getimage() async {
@@ -33,11 +33,11 @@ class ChatProvider extends ChangeNotifier {
 
   ///function to clear selected image but it donot work
   void clearSelectedImage() {
-    this.imagetemporary = null;
+    imagetemporary = null;
   }
 
   ///Function to send message data to database
-  void doChat(BuildContext context) async {
+  void doChat() async {
     String messagetext = messageController.text;
     messageController.clear();
 

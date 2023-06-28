@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 /// This is the class to fetch all user to show it in users page of botton nav bar
 class UserViewModel extends ChangeNotifier {
-  DatabaseHelper _databasehelper = DatabaseHelper();
+  final DatabaseHelper _databasehelper = DatabaseHelper();
   Future<List<User>> getUser(int userid) async {
     //print(_databasehelper.getAllUsers(userid));
 

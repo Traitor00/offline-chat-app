@@ -3,8 +3,6 @@ import 'package:chatapp/viewmodel/homepage/homepageviewmodel.dart';
 import 'package:chatapp/widgets/homescreen/bottomnav/messages.dart';
 import 'package:chatapp/widgets/homescreen/bottomnav/settinglist.dart';
 import 'package:chatapp/widgets/homescreen/bottomnav/userlist.dart';
-import 'package:chatapp/widgets/homescreen/tabbar/tabbarindicator.dart';
-import 'package:chatapp/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -41,10 +39,9 @@ class _HomePageState extends State<HomePage> {
         onTap: (index) {
           provider.currentIndex = index;
         },
-        items: [
-          BottomNavigationBarItem(icon: new Icon(Icons.person), label: "User"),
-          BottomNavigationBarItem(
-              icon: new Icon(Icons.message), label: "Message"),
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "User"),
+          BottomNavigationBarItem(icon: Icon(Icons.message), label: "Message"),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting")
         ],
       ),

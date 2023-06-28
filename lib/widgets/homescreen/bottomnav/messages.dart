@@ -5,6 +5,7 @@ import 'package:chatapp/widgets/homescreen/tabbar/tabbarindicator.dart';
 import 'package:chatapp/widgets/text.dart';
 import 'package:flutter/material.dart';
 
+///class show item of navbar and inside this we inserted tabbar
 class MessagesList extends StatelessWidget {
   const MessagesList({super.key});
 
@@ -24,12 +25,12 @@ class MessagesList extends StatelessWidget {
           bottom: TabBar(
               indicatorPadding: EdgeInsets.only(right: 5, top: 15),
               indicator: DotIndicator(color: Colors.blue, radius: 5),
-              tabs: [
+              tabs: const [
                 Tab(child: CustomText(content: "Message", size: 20)),
                 Tab(child: CustomText(content: "Group", size: 20)),
                 Tab(child: CustomText(content: "Call", size: 20)),
               ]),
-          actions: [
+          actions: const [
             Icon(
               Icons.search,
               color: Colors.black,
@@ -46,7 +47,7 @@ class MessagesList extends StatelessWidget {
             )
           ],
         ),
-        body: TabBarView(children: [
+        body: TabBarView(children: const [
           MessageinsideTabbar(),
           Groups(),
           Call(),
