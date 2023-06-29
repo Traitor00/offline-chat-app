@@ -5,14 +5,17 @@ class Message {
   String? message;
   String? updatedAt;
   String? img;
+  String? reaction;
 
-  Message(
-      {this.id,
-      this.senderId,
-      this.recieverid,
-      this.message,
-      this.updatedAt,
-      this.img});
+  Message({
+    this.id,
+    this.senderId,
+    this.recieverid,
+    this.message,
+    this.updatedAt,
+    this.img,
+    this.reaction,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -21,17 +24,20 @@ class Message {
       'recieverid': recieverid,
       'message': message,
       'updatedat': updatedAt,
-      'img': img
+      'img': img,
+      'reaction': reaction
     };
   }
 
   factory Message.fromMap(Map<String, dynamic> map) {
     return Message(
-        id: map['id'],
-        senderId: map['senderid'],
-        recieverid: map['recieverid'],
-        message: map['message'],
-        updatedAt: map['updatedat'],
-        img: map['img']);
+      id: map['id'],
+      senderId: map['senderid'],
+      recieverid: map['recieverid'],
+      message: map['message'],
+      updatedAt: map['updatedat'],
+      img: map['img'],
+      reaction: map['reaction'],
+    );
   }
 }

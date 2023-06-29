@@ -1,5 +1,6 @@
 import 'package:chatapp/model/combined.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 ///this container used in chat bubble widget and urlpreviewmsg
@@ -13,17 +14,20 @@ class CustomMessageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DateTime time = DateTime.parse(message!.updatedat!);
+    final DateTime time = DateTime.parse(message?.updatedat ?? "");
+    GlobalKey mywidgetkey = GlobalKey();
+    String? url = message?.reaction;
     return Container(
+      key: mywidgetkey,
       padding: EdgeInsets.all(8.0),
       margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
       decoration: BoxDecoration(
         color: isMe ? Colors.blue[100] : Colors.grey[300],
         borderRadius: isMe
-            ? continuousMessage!
+            ? continuousMessage ?? false
                 ? BorderRadius.only(bottomLeft: Radius.circular(20))
                 : BorderRadius.only(topLeft: Radius.circular(20))
-            : continuousMessage!
+            : continuousMessage ?? false
                 ? BorderRadius.only(bottomRight: Radius.circular(20))
                 : BorderRadius.only(topRight: Radius.circular(20)),
       ),

@@ -46,7 +46,8 @@ class DatabaseHelper {
         recieverid INTEGER,
         message TEXT, 
         updatedat TEXT,
-        img TEXT
+        img TEXT,
+        reaction TEXT
       )
       ''');
 
@@ -181,7 +182,7 @@ INNER JOIN (
     Database db = await database;
 
     final List<Map<String, dynamic>> result = await db.rawQuery('''
-    SELECT user.name, user.imageurl,user.phoneno, message.message, message.updatedat,message.recieverid,message.senderid,message.img
+    SELECT user.name, user.imageurl,user.phoneno,message.id,message.reaction, message.message, message.updatedat,message.recieverid,message.senderid,message.img
     FROM user
     INNER JOIN message ON user.id = message.senderid
     WHERE (message.senderid = $senderId AND message.recieverid=$recieverid) OR (message.senderid=$recieverid AND message.recieverid=$senderId) 

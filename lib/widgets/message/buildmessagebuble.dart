@@ -4,6 +4,7 @@ import 'package:chatapp/model/combined.dart';
 import 'package:chatapp/widgets/message/messagebblcontainer.dart';
 import 'package:chatapp/widgets/message/urlpreviewmsg.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class BuildMessageBuble extends StatelessWidget {
@@ -68,13 +69,10 @@ class BuildMessageBuble extends StatelessWidget {
                         continuousMessage: continuousMessage,
                         message: message,
                       )
-                    : GestureDetector(
-                        onLongPress: () {},
-                        child: CustomMessageContainer(
-                          isMe: isMe,
-                          continuousMessage: continuousMessage,
-                          message: message,
-                        ),
+                    : CustomMessageContainer(
+                        isMe: isMe,
+                        continuousMessage: continuousMessage,
+                        message: message,
                       )
           ],
         )

@@ -7,16 +7,21 @@ class Combined {
   int? recieverid;
   int? senderid;
   String? img;
+  String? reaction;
+  int? id;
 
-  Combined(
-      {this.message,
-      this.updatedat,
-      this.name,
-      this.imageUrl,
-      this.recieverid,
-      this.senderid,
-      this.img,
-      this.phoneno});
+  Combined({
+    this.message,
+    this.updatedat,
+    this.name,
+    this.imageUrl,
+    this.recieverid,
+    this.senderid,
+    this.img,
+    this.phoneno,
+    this.reaction,
+    this.id,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -27,7 +32,9 @@ class Combined {
       'recieverid': recieverid,
       'senderid': senderid,
       'img': img,
-      'phoneno': phoneno
+      'phoneno': phoneno,
+      'reaction': reaction,
+      'id': id
     };
   }
 
@@ -40,6 +47,8 @@ class Combined {
         recieverid: map['recieverid'],
         senderid: map['senderid'],
         img: map['img'],
-        phoneno: map['phoneno']);
+        phoneno: map['phoneno'],
+        reaction: map['reaction'],
+        id: map['id']);
   }
 }

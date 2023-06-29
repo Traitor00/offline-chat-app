@@ -48,9 +48,10 @@ class ChatProvider extends ChangeNotifier {
         recieverid: receiverId,
         updatedAt: DateTime.now().toIso8601String(),
         img: imagetemporary);
-    imagetemporary = null;
 
     ///to make the image selected  to null  so that no same image cant be inserted to null image
+    imagetemporary = null;
+
     await dbHelper.insertMessage(message);
 
     notifyListeners();

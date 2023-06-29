@@ -17,12 +17,7 @@ class SignInPage extends StatelessWidget {
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            Consumer<SignInViewModel>(
-              builder: (context, model, _) => TextField(
-                controller: model.emailController,
-                decoration: InputDecoration(labelText: 'email'),
-              ),
-            ),
+            EmailField(),
             Consumer<SignInViewModel>(
               ///Build a widget tree based on the value from a provider.
               builder: (context, model, _) => TextField(
@@ -57,6 +52,18 @@ class SignInPage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class EmailField extends StatelessWidget {
+  const EmailField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: context.read<SignInViewModel>().emailController,
+      decoration: InputDecoration(labelText: 'email'),
     );
   }
 }

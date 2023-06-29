@@ -6,45 +6,55 @@ import 'package:chatapp/widgets/homescreen/bottomnav/userlist.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   final int? userid;
-  const HomePage({this.userid, super.key});
+  HomePage({this.userid, super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   /// List of Navbars pages
-  var currentTab = [
+  final currentTab = [
     UserList(),
     MessagesList(),
     SettingList(),
   ];
+
   @override
   Widget build(BuildContext context) {
     BottomNavigationBarProvider provider =
         Provider.of<BottomNavigationBarProvider>(context);
     HomePageViewModel messageProvider =
         Provider.of<HomePageViewModel>(context, listen: false);
-    messageProvider.userId = widget.userid!;
+    messageProvider.userId = userid!;
 
     return Scaffold(
       body: currentTab[provider.currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        enableFeedback: true,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        currentIndex: provider.currentIndex,
-        onTap: (index) {
-          provider.currentIndex = index;
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "User"),
-          BottomNavigationBarItem(icon: Icon(Icons.message), label: "Message"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting")
-        ],
-      ),
+      bottomNavigationBar: HomePagNavigitionBar(provider: provider),
+    );
+  }
+}
+
+class HomePagNavigitionBar extends StatelessWidget {
+  const HomePagNavigitionBar({
+    super.key,
+    required this.provider,
+  });
+
+  final BottomNavigationBarProvider provider;
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      enableFeedback: true,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      currentIndex: provider.currentIndex,
+      onTap: (index) {
+        provider.currentIndex = index;
+      },
+      items: const [
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: "User"),
+        BottomNavigationBarItem(icon: Icon(Icons.message), label: "Message"),
+        BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting")
+      ],
     );
   }
 }

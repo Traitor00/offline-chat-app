@@ -2,7 +2,6 @@ import 'package:chatapp/viewmodel/chat/callviewmodel.dart';
 import 'package:chatapp/viewmodel/chat/insertchatviewmodel.dart';
 import 'package:chatapp/widgets/message/buildmessagebuble.dart';
 import 'package:chatapp/widgets/message/chatpagebcontainer.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -90,9 +89,7 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
                       ///current user and next user are same and if their
                       ///time difference is less than 1 min
                       ///  convert String date  time to Datetime
-                      if (kDebugMode) {
-                        print("${data1.length} : ${index - 1}");
-                      }
+
                       final bool continuousMessage = data1.length < (index + 2)
                           ? false
                           : message.senderid == data1[index + 1].senderid &&
@@ -101,10 +98,6 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
                                           data1[index + 1].updatedat!))
                                       .inMinutes <=
                                   1;
-
-                      if (kDebugMode) {
-                        print(continuousMessage);
-                      }
 
                       /// message bubble
                       return BuildMessageBuble(
