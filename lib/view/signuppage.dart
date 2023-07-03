@@ -1,4 +1,5 @@
 import 'package:chatapp/viewmodel/signupprovider.dart';
+import 'package:chatapp/widgets/custom_textField.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,6 +8,8 @@ class SignupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SignupViewModel signupProvider =
+        Provider.of<SignupViewModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text('Sign Up'),
@@ -17,62 +20,53 @@ class SignupPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Consumer<SignupViewModel>(
-                builder: (context, model, _) => TextField(
-                  controller: model.nameController,
-                  decoration: InputDecoration(labelText: 'name'),
-                ),
+              CustomTextField(
+                editcontroller: signupProvider.nameController,
+                labelText: "name",
+                obscureText: false,
               ),
-              Consumer<SignupViewModel>(
-                builder: (context, model, _) => TextField(
-                  controller: model.emailController,
-                  decoration: InputDecoration(labelText: 'email'),
-                ),
+              CustomTextField(
+                editcontroller: signupProvider.emailController,
+                labelText: "email",
+                obscureText: false,
               ),
-              Consumer<SignupViewModel>(
-                builder: (context, model, _) => TextField(
-                  controller: model.moilenoController,
-                  decoration: InputDecoration(labelText: 'mobileno'),
-                ),
+              CustomTextField(
+                editcontroller: signupProvider.moilenoController,
+                labelText: "mobile no",
+                obscureText: false,
               ),
-              Consumer<SignupViewModel>(
-                builder: (context, model, _) => TextField(
-                  controller: model.passwordController,
-                  decoration: InputDecoration(labelText: 'Password'),
-                  obscureText: true,
-                ),
+              CustomTextField(
+                editcontroller: signupProvider.passwordController,
+                labelText: "password",
+                obscureText: true,
               ),
               SizedBox(
                 height: 16,
               ),
-              Consumer<SignupViewModel>(
-                builder: (context, model, _) => GestureDetector(
-                  onTap: () {
-                    model.getimage();
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(left: 10),
-                    width: 100,
-                    color: Colors.blue,
-                    height: 30,
-                    child: Center(
-                        child: Text(
-                      "Select Image",
-                      style: TextStyle(color: Colors.white),
-                    )),
-                  ),
+              GestureDetector(
+                onTap: () {
+                  signupProvider.getimage();
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 10),
+                  width: 100,
+                  color: Colors.blue,
+                  height: 30,
+                  child: Center(
+                      child: Text(
+                    "Select Image",
+                    style: TextStyle(color: Colors.white),
+                  )),
                 ),
               ),
               SizedBox(height: 20),
-              Consumer<SignupViewModel>(
-                builder: (context, model, _) => Center(
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: 40,
-                    child: ElevatedButton(
-                      onPressed: () => model.signUp(context),
-                      child: Text('Sign Up'),
-                    ),
+              Center(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: 40,
+                  child: ElevatedButton(
+                    onPressed: () => signupProvider.signUp(context),
+                    child: Text('Sign Up'),
                   ),
                 ),
               ),
