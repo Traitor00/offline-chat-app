@@ -20,6 +20,9 @@ class ImageContainerMessage extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: Image.file(
                 File(message.img ?? ''),
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset('assets/Image_not_available.png');
+                },
                 fit: BoxFit.cover,
                 height: 200,
                 width: 150,
