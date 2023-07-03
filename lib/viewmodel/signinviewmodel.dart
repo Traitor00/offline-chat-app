@@ -3,7 +3,9 @@
 import 'package:chatapp/helpers/databasehelpers.dart';
 import 'package:chatapp/model/user.dart';
 import 'package:chatapp/view/homepage.dart';
+import 'package:chatapp/view/signuppage.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 class SignInViewModel extends ChangeNotifier {
   ///textediting controllers for email and password textfields
@@ -11,7 +13,7 @@ class SignInViewModel extends ChangeNotifier {
   TextEditingController passwordController = TextEditingController();
 
   int? _userid;
-  int get userid => _userid!;
+  int get userid => _userid ?? 0;
 
   ///Function to Signin and send user id got from database to another page i.e Home Page
   void signIn(BuildContext context) async {
@@ -63,5 +65,10 @@ class SignInViewModel extends ChangeNotifier {
         ),
       );
     }
+  }
+
+  void redirectSignupPage(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => SignupPage()));
   }
 }
