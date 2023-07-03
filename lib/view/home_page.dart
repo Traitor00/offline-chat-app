@@ -1,7 +1,6 @@
 import 'package:chatapp/viewmodel/chat/call_view_model.dart';
 import 'package:chatapp/viewmodel/homepage/navbarviewmodel/navbar_view_model.dart';
 import 'package:chatapp/viewmodel/homepage/home_page_view_model.dart';
-import 'package:chatapp/viewmodel/signin_view_model.dart';
 import 'package:chatapp/widgets/homescreen/bottomnav/messages.dart';
 import 'package:chatapp/widgets/homescreen/bottomnav/settinglist.dart';
 import 'package:chatapp/widgets/homescreen/bottomnav/userlist.dart';
@@ -9,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
-  final int? userid;
-  HomePage({this.userid, super.key});
+  final int userid;
+  HomePage({required this.userid, super.key});
 
   /// List of Navbars pages
   final currentTab = [
@@ -25,13 +24,15 @@ class HomePage extends StatelessWidget {
         Provider.of<BottomNavigationBarProvider>(context);
     HomePageViewModel messageProvider =
         Provider.of<HomePageViewModel>(context, listen: false);
-    messageProvider.userId = userid ?? 0;
+    messageProvider.userId = userid;
 
+    ///setting value to senderid  of callprovider to fetch call history by using
     CallViewModel callProvider =
         Provider.of<CallViewModel>(context, listen: false);
-    SignInViewModel provideruser =
-        Provider.of<SignInViewModel>(context, listen: false);
-    callProvider.senderid = provideruser.userid;
+
+    callProvider.senderid = userid;
+
+    ///
     callProvider.getSenderNumber();
 
     return Scaffold(
