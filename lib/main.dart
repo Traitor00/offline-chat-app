@@ -23,10 +23,6 @@ void main() {
       ChangeNotifierProvider<CallViewModel>(create: (_) => CallViewModel()),
     ],
     child: const MyApp(),
-
-    /*ChangeNotifierProvider(
-      //you can subscribe to its changes using change notifier
-      create: (_) => ChapterProvider(),*/
   ));
 }
 

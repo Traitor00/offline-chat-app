@@ -9,12 +9,15 @@ import 'package:path_provider/path_provider.dart';
 
 /// Database Helper Class
 class DatabaseHelper {
+  ///object of private constructor
   static final DatabaseHelper _instance = DatabaseHelper.internal();
 
+  ///factory constructor returned
   factory DatabaseHelper() => _instance;
 
   Database? _database;
 
+  ///private Constructor
   DatabaseHelper.internal();
 
   Future<Database> get database async {
@@ -89,8 +92,6 @@ class DatabaseHelper {
 
   ///get login
   Future<List<User>> isUserExist(String email, String password) async {
-    /*final String sql =
-        "SELECT  * FrDISTINCTom $tableUser WHERE $columnEmail=${user.email} AND $columnPassword=${user.password}";*/
     final Database db = await database;
     final List<Map<String, dynamic>> maps = await db.rawQuery(
         '''SELECT * FROM user WHERE email='$email'  AND  password= '$password'  ''');
@@ -154,11 +155,7 @@ class DatabaseHelper {
   ///Fetch username ,image url, message ,updatedat to message tab in Home page
   Future<List<Combined>> fetchMessagesSortedByDate(int userId) async {
     Database db = await database;
-/*final String query="SELECT user.name, user.imageurl, message.message, message.updatedat,message.recieverid,message.senderid
-    FROM user
-    INNER JOIN message ON user.id = message.recieverid
-    WHERE message.senderid = $userId 
-    ORDER BY message.updatedat DESC";*/
+
     final List<Map<String, dynamic>> result = await db.rawQuery('''
  SELECT u.name, u.imageurl, m.message, m.updatedat, m.recieverid, m.senderid
 FROM user AS u

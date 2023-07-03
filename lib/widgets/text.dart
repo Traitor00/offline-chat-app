@@ -10,7 +10,7 @@ class CustomText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      "$content",
+      content ?? "",
       style: TextStyle(
           color: Colors.grey[700], fontSize: size, fontWeight: FontWeight.w300),
     );

@@ -1,26 +1,24 @@
 import 'dart:io';
-
 import 'package:chatapp/model/combined.dart';
-import 'package:chatapp/widgets/message/messagebblcontainer.dart';
+import 'package:chatapp/widgets/message/custommessagebblcontainer.dart';
+import 'package:chatapp/widgets/message/imagecontainermsg.dart';
 import 'package:chatapp/widgets/message/urlpreviewmsg.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class BuildMessageBuble extends StatelessWidget {
   final bool isMe;
   final bool continuousMessage;
   final Combined message;
+  final bool isMiddleMessage;
   const BuildMessageBuble(
       {required this.continuousMessage,
       required this.isMe,
       required this.message,
+      required this.isMiddleMessage,
       super.key});
 
   @override
   Widget build(BuildContext context) {
-    final DateTime time = DateTime.parse(message.updatedat!);
-
     return Row(
       mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
@@ -33,35 +31,13 @@ class BuildMessageBuble extends StatelessWidget {
                   : FileImage(
                       File(message.imageUrl!),
                     ) as ImageProvider,
-              /*FileImage(
-                File(message.imageUrl!),
-              ),*/
               radius: 20,
             ),
           ),
         Column(
           children: [
             message.img != null
-                ? Container(
-                    padding: EdgeInsets.all(8),
-                    child: Column(
-                      children: [
-                        Image.file(
-                          File(message.img!),
-                          fit: BoxFit.cover,
-                          height: 200,
-                          width: 150,
-                        ),
-                        Text(
-                          "${timeago.format(time, locale: 'en_short')} ago",
-                          style: TextStyle(
-                              fontSize: 12.0, color: Colors.grey[600]),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        )
-                      ],
-                    ))
+                ? ImageContainerMessage(message: message)
                 : message.message!.startsWith("https")
                     ? UrlPreviewMsg(
                         isMe: isMe,
@@ -73,6 +49,7 @@ class BuildMessageBuble extends StatelessWidget {
                         isMe: isMe,
                         continuousMessage: continuousMessage,
                         message: message,
+                        isMiddleMessage: isMiddleMessage,
                       )
           ],
         )

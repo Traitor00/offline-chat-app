@@ -31,7 +31,7 @@ class ChatProvider extends ChangeNotifier {
     this.imagetemporary = imagetemporary;
   }
 
-  ///function to clear selected image but it donot work
+  ///function to clear selected image
   void clearSelectedImage() {
     imagetemporary = null;
   }

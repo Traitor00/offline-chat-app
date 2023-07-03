@@ -52,15 +52,6 @@ class ChatPgBtmContainer extends StatelessWidget {
                 Icons.switch_right_sharp,
               )),
           CustomIconButton(icon: Icon(Icons.send), onPressed: onPressed),
-          /*IconButton(
-            icon: Icon(Icons.send),
-            onPressed: () {
-              provider.doChat();
-              setState(() {
-                provider.messageFetch();
-              });
-            },
-          ),*/
         ],
       ),
     );

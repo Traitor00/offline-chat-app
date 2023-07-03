@@ -1,5 +1,6 @@
+import 'package:chatapp/constants/constant.dart';
 import 'package:chatapp/model/combined.dart';
-import 'package:chatapp/widgets/message/messagebblcontainer.dart';
+import 'package:chatapp/widgets/message/custommessagebblcontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:any_link_preview/any_link_preview.dart';
 
@@ -17,8 +18,6 @@ class UrlPreviewMsg extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const String errorImage =
-        "https://i.ytimg.com/vi/z8wrRRR7_qU/maxresdefault.jpg";
     return Container(
       constraints: BoxConstraints(
           minWidth: 50, maxWidth: 200, minHeight: 20, maxHeight: 80),
