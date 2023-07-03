@@ -7,19 +7,17 @@ import 'package:timeago/timeago.dart' as timeago;
 ///in error widget
 class CustomMessageContainer extends StatelessWidget {
   final bool isMe;
-  final bool? continuousMessage;
-  final Combined? message;
-  final bool? isMiddleMessage;
+  final bool continuousMessage;
+  final Combined message;
   const CustomMessageContainer(
-      {this.continuousMessage,
+      {required this.continuousMessage,
       required this.isMe,
-      this.message,
-      this.isMiddleMessage,
+      required this.message,
       super.key});
 
   @override
   Widget build(BuildContext context) {
-    final DateTime time = DateTime.parse(message?.updatedat ?? "");
+    final DateTime time = DateTime.parse(message.updatedat ?? "");
     GlobalKey mywidgetkey = GlobalKey();
 
     return Container(
@@ -29,10 +27,10 @@ class CustomMessageContainer extends StatelessWidget {
       decoration: BoxDecoration(
           color: isMe ? Colors.blue[100] : Colors.grey[300],
           borderRadius: isMe
-              ? continuousMessage ?? false
+              ? continuousMessage
                   ? bottomLeftConstant
                   : topLeftConstant
-              : continuousMessage ?? false
+              : continuousMessage
                   ? bottomRightConstant
                   : topRightConstant),
       child: Column(
@@ -40,7 +38,7 @@ class CustomMessageContainer extends StatelessWidget {
             isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
           Text(
-            message!.message!,
+            message.message ?? '',
             maxLines: 3,
             style: TextStyle(
               fontSize: 16.0,

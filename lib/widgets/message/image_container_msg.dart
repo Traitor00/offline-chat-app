@@ -10,7 +10,7 @@ class ImageContainerMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DateTime time = DateTime.parse(message.updatedat!);
+    final DateTime time = DateTime.parse(message.updatedat ?? '');
 
     return Container(
         padding: EdgeInsets.all(8),
@@ -19,7 +19,7 @@ class ImageContainerMessage extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.file(
-                File(message.img!),
+                File(message.img ?? ''),
                 fit: BoxFit.cover,
                 height: 200,
                 width: 150,

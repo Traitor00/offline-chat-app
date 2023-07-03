@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:chatapp/view/chatpage.dart';
-import 'package:chatapp/viewmodel/homepage/navbarviewmodel/userviewmodel.dart';
-import 'package:chatapp/viewmodel/signinviewmodel.dart';
-import 'package:chatapp/widgets/customappbar.dart';
+import 'package:chatapp/view/chat_page.dart';
+import 'package:chatapp/viewmodel/homepage/navbarviewmodel/user_view_model.dart';
+import 'package:chatapp/viewmodel/signin_view_model.dart';
+import 'package:chatapp/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +13,8 @@ class UserList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserViewModel provider = Provider.of<UserViewModel>(context, listen: false);
+
+    ///to get info of signed in user
     SignInViewModel provideruser =
         Provider.of<SignInViewModel>(context, listen: false);
 
@@ -22,10 +24,12 @@ class UserList extends StatelessWidget {
         ismessage: false,
       ),
       body: FutureBuilder(
-        future: provider.getUser(provideruser.userid),
+        future: provider.getAllUsers(provideruser.userid),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
+          } else if (snapshot.data == null) {
+            return Text("No Users Found");
           } else if (snapshot.hasData) {
             final data = snapshot.data;
             return ListView.builder(
@@ -36,13 +40,15 @@ class UserList extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => ChatPageScreen(
-                            provideruser.userid, user.id, user.name)));
+                            provideruser.userid,
+                            user.id ?? 0,
+                            user.name ?? "")));
                   },
-                  title: Text("${user.name}"),
+                  title: Text(user.name ?? ''),
                   leading: CircleAvatar(
                     //child: user.imageUrl==null?Text(user.name),
                     backgroundImage: user.imageUrl == null
-                        ? NetworkImage('https://i.stack.imgur.com/l60Hf.png')
+                        ? AssetImage('assets/default.png')
                         : FileImage(
                             File(user.imageUrl!),
                           ) as ImageProvider,

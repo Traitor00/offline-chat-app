@@ -1,7 +1,7 @@
-import 'package:chatapp/widgets/homescreen/tabbar/callinsidetabbar.dart';
-import 'package:chatapp/widgets/homescreen/tabbar/groupintabbar.dart';
-import 'package:chatapp/widgets/homescreen/tabbar/messageinsidetab.dart';
-import 'package:chatapp/widgets/homescreen/tabbar/tabbarindicator.dart';
+import 'package:chatapp/widgets/homescreen/tabbar/call_inside_tabbar.dart';
+import 'package:chatapp/widgets/homescreen/tabbar/group_in_tabbar.dart';
+import 'package:chatapp/widgets/homescreen/tabbar/message_inside_tab.dart';
+import 'package:chatapp/widgets/homescreen/tabbar/tabbar_indicator.dart';
 import 'package:chatapp/widgets/text.dart';
 import 'package:flutter/material.dart';
 

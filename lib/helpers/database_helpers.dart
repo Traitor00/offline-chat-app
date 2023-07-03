@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:chatapp/model/callhistory.dart';
+import 'package:chatapp/model/call_history.dart';
 import 'package:chatapp/model/combined.dart';
 import 'package:chatapp/model/message.dart';
 import 'package:chatapp/model/user.dart';

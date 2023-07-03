@@ -1,11 +1,11 @@
-import 'package:chatapp/view/signinpage.dart';
-import 'package:chatapp/viewmodel/chat/callviewmodel.dart';
-import 'package:chatapp/viewmodel/chat/insertchatviewmodel.dart';
-import 'package:chatapp/viewmodel/homepage/navbarviewmodel/navbarviewmodel.dart';
-import 'package:chatapp/viewmodel/homepage/homepageviewmodel.dart';
-import 'package:chatapp/viewmodel/homepage/navbarviewmodel/userviewmodel.dart';
-import 'package:chatapp/viewmodel/signinviewmodel.dart';
-import 'package:chatapp/viewmodel/signupprovider.dart';
+import 'package:chatapp/view/signin_page.dart';
+import 'package:chatapp/viewmodel/chat/call_view_model.dart';
+import 'package:chatapp/viewmodel/chat/chat_view_model.dart';
+import 'package:chatapp/viewmodel/homepage/navbarviewmodel/navbar_view_model.dart';
+import 'package:chatapp/viewmodel/homepage/home_page_view_model.dart';
+import 'package:chatapp/viewmodel/homepage/navbarviewmodel/user_view_model.dart';
+import 'package:chatapp/viewmodel/signin_view_model.dart';
+import 'package:chatapp/viewmodel/signup_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

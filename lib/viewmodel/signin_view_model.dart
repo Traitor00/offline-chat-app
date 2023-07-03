@@ -1,11 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:chatapp/helpers/databasehelpers.dart';
+import 'package:chatapp/helpers/database_helpers.dart';
 import 'package:chatapp/model/user.dart';
-import 'package:chatapp/view/homepage.dart';
-import 'package:chatapp/view/signuppage.dart';
+import 'package:chatapp/view/home_page.dart';
+import 'package:chatapp/view/signup_page.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 
 class SignInViewModel extends ChangeNotifier {
   ///textediting controllers for email and password textfields
@@ -56,6 +55,7 @@ class SignInViewModel extends ChangeNotifier {
       info;
     } else {
       _userid = users[0].id?.toInt();
+
       //navigate to home page
       Navigator.of(context).push(
         MaterialPageRoute(

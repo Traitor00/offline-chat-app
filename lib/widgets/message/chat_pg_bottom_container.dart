@@ -1,14 +1,13 @@
-import 'package:chatapp/widgets/customiconbutton.dart';
+import 'package:chatapp/widgets/custom_icon_button.dart';
 import 'package:provider/provider.dart';
-import 'package:chatapp/viewmodel/chat/insertchatviewmodel.dart';
+import 'package:chatapp/viewmodel/chat/chat_view_model.dart';
 import 'package:flutter/material.dart';
 
 class ChatPgBtmContainer extends StatelessWidget {
-  final VoidCallback? onPressed;
-  final int? receiverIid;
-  final int? senderIid;
+  final int receiverIid;
+  final int senderIid;
   const ChatPgBtmContainer(
-      {this.onPressed, this.receiverIid, this.senderIid, super.key});
+      {required this.receiverIid, required this.senderIid, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +44,18 @@ class ChatPgBtmContainer extends StatelessWidget {
           IconButton(
               enableFeedback: true,
               onPressed: () {
-                provider.senderId = receiverIid!;
-                provider.receiverId = senderIid!;
+                provider.senderId = receiverIid;
+                provider.receiverId = senderIid;
               },
               icon: Icon(
                 Icons.switch_right_sharp,
               )),
-          CustomIconButton(icon: Icon(Icons.send), onPressed: onPressed),
+          CustomIconButton(
+              icon: Icon(Icons.send),
+              onPressed: () {
+                provider.doChat();
+                provider.messageFetch();
+              }),
         ],
       ),
     );

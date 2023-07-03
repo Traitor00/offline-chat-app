@@ -1,31 +1,31 @@
-import 'package:chatapp/helpers/databasehelpers.dart';
-import 'package:chatapp/model/callhistory.dart';
+import 'package:chatapp/helpers/database_helpers.dart';
+import 'package:chatapp/model/call_history.dart';
 import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CallViewModel extends ChangeNotifier {
   int? _receiverid;
-  int get receiverid => _receiverid!;
+  int get receiverid => _receiverid ?? 0;
   set receiverid(int receiverid) {
     _receiverid = receiverid;
   }
 
   int? _senderid;
-  int get senderid => _senderid!;
+  int get senderid => _senderid ?? 0;
   set senderid(int senderid) {
     _senderid = senderid;
   }
 
   String? _callerno;
   String? _receiverno;
-  String get callerno => _callerno!;
+  String get callerno => _callerno ?? '';
   set callerno(String callerno) {
-    callerno = _callerno!;
+    callerno = _callerno ?? '';
   }
 
-  String get receiverno => _receiverno!;
+  String get receiverno => _receiverno ?? '';
   set receiverno(String receiverno) {
-    receiverno = _receiverno!;
+    receiverno = _receiverno ?? "";
   }
 
   ///Fuction to get receivers mobile no

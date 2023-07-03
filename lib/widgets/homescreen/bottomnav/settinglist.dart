@@ -1,5 +1,5 @@
-import 'package:chatapp/viewmodel/homepage/homepageviewmodel.dart';
-import 'package:chatapp/widgets/customappbar.dart';
+import 'package:chatapp/viewmodel/homepage/home_page_view_model.dart';
+import 'package:chatapp/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

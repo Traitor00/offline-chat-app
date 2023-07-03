@@ -1,20 +1,18 @@
 import 'dart:io';
 import 'package:chatapp/model/combined.dart';
-import 'package:chatapp/widgets/message/custommessagebblcontainer.dart';
-import 'package:chatapp/widgets/message/imagecontainermsg.dart';
-import 'package:chatapp/widgets/message/urlpreviewmsg.dart';
+import 'package:chatapp/widgets/message/custom_message_bbl_container.dart';
+import 'package:chatapp/widgets/message/image_container_msg.dart';
+import 'package:chatapp/widgets/message/url_preview_msg.dart';
 import 'package:flutter/material.dart';
 
 class BuildMessageBuble extends StatelessWidget {
   final bool isMe;
   final bool continuousMessage;
   final Combined message;
-  final bool isMiddleMessage;
   const BuildMessageBuble(
       {required this.continuousMessage,
       required this.isMe,
       required this.message,
-      required this.isMiddleMessage,
       super.key});
 
   @override
@@ -27,9 +25,9 @@ class BuildMessageBuble extends StatelessWidget {
             margin: EdgeInsets.only(right: 8.0),
             child: CircleAvatar(
               backgroundImage: message.imageUrl == null
-                  ? NetworkImage('https://i.stack.imgur.com/l60Hf.png')
+                  ? AssetImage('assets/default.png')
                   : FileImage(
-                      File(message.imageUrl!),
+                      File(message.imageUrl ?? ''),
                     ) as ImageProvider,
               radius: 20,
             ),
@@ -38,10 +36,10 @@ class BuildMessageBuble extends StatelessWidget {
           children: [
             message.img != null
                 ? ImageContainerMessage(message: message)
-                : message.message!.startsWith("https")
+                : message.message?.startsWith("https") ?? false
                     ? UrlPreviewMsg(
                         isMe: isMe,
-                        url: message.message,
+                        url: message.message ?? '',
                         continuousMessage: continuousMessage,
                         message: message,
                       )
@@ -49,7 +47,6 @@ class BuildMessageBuble extends StatelessWidget {
                         isMe: isMe,
                         continuousMessage: continuousMessage,
                         message: message,
-                        isMiddleMessage: isMiddleMessage,
                       )
           ],
         )

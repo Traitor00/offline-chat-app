@@ -1,5 +1,5 @@
-import 'package:chatapp/viewmodel/signupprovider.dart';
-import 'package:chatapp/widgets/custom_textField.dart';
+import 'package:chatapp/viewmodel/signup_view_model.dart';
+import 'package:chatapp/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,21 +20,28 @@ class SignupPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              ///name field
               CustomTextField(
                 editcontroller: signupProvider.nameController,
                 labelText: "name",
                 obscureText: false,
               ),
+
+              ///Email Field
               CustomTextField(
                 editcontroller: signupProvider.emailController,
                 labelText: "email",
                 obscureText: false,
               ),
+
+              ///Mobile no Text Field
               CustomTextField(
                 editcontroller: signupProvider.moilenoController,
                 labelText: "mobile no",
                 obscureText: false,
               ),
+
+              ///Password TextField
               CustomTextField(
                 editcontroller: signupProvider.passwordController,
                 labelText: "password",
@@ -43,6 +50,8 @@ class SignupPage extends StatelessWidget {
               SizedBox(
                 height: 16,
               ),
+
+              ///Picking image
               GestureDetector(
                 onTap: () {
                   signupProvider.getimage();
@@ -60,6 +69,8 @@ class SignupPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
+
+              ///Signup Button
               Center(
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.9,

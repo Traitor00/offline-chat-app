@@ -1,19 +1,19 @@
 import 'package:chatapp/constants/constant.dart';
 import 'package:chatapp/model/combined.dart';
-import 'package:chatapp/widgets/message/custommessagebblcontainer.dart';
+import 'package:chatapp/widgets/message/custom_message_bbl_container.dart';
 import 'package:flutter/material.dart';
 import 'package:any_link_preview/any_link_preview.dart';
 
 class UrlPreviewMsg extends StatelessWidget {
-  final String? url;
+  final String url;
   final bool isMe;
-  final bool? continuousMessage;
-  final Combined? message;
+  final bool continuousMessage;
+  final Combined message;
   const UrlPreviewMsg(
-      {this.url,
+      {required this.url,
       required this.isMe,
-      this.continuousMessage,
-      this.message,
+      required this.continuousMessage,
+      required this.message,
       super.key});
 
   @override
@@ -23,7 +23,7 @@ class UrlPreviewMsg extends StatelessWidget {
           minWidth: 50, maxWidth: 200, minHeight: 20, maxHeight: 80),
       margin: EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
       child: AnyLinkPreview(
-        link: url!,
+        link: url,
         displayDirection: UIDirection.uiDirectionHorizontal,
         bodyStyle: TextStyle(color: Colors.black87),
         cache: Duration(hours: 2),

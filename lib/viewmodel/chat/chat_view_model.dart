@@ -1,4 +1,4 @@
-import 'package:chatapp/helpers/databasehelpers.dart';
+import 'package:chatapp/helpers/database_helpers.dart';
 import 'package:chatapp/model/combined.dart';
 import 'package:chatapp/model/message.dart';
 import 'package:flutter/material.dart';

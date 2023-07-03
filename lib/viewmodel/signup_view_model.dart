@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:chatapp/helpers/databasehelpers.dart';
+import 'package:chatapp/helpers/database_helpers.dart';
 import 'package:chatapp/model/user.dart';
-import 'package:chatapp/view/signinpage.dart';
+import 'package:chatapp/view/signin_page.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 

@@ -1,5 +1,5 @@
-import 'package:chatapp/viewmodel/signinviewmodel.dart';
-import 'package:chatapp/widgets/custom_textField.dart';
+import 'package:chatapp/viewmodel/signin_view_model.dart';
+import 'package:chatapp/widgets/custom_text_field.dart';
 import 'package:chatapp/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
