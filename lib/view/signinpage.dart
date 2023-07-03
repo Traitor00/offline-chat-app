@@ -1,5 +1,5 @@
-import 'package:chatapp/view/signuppage.dart';
 import 'package:chatapp/viewmodel/signinviewmodel.dart';
+import 'package:chatapp/widgets/custom_textField.dart';
 import 'package:chatapp/widgets/text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +9,8 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SignInViewModel signinprovider =
+        Provider.of<SignInViewModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text("Login"),
@@ -17,34 +19,32 @@ class SignInPage extends StatelessWidget {
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            EmailField(),
-            Consumer<SignInViewModel>(
-              ///Build a widget tree based on the value from a provider.
-              builder: (context, model, _) => TextField(
-                controller: model.passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
-              ),
+            ///email TextField
+            CustomTextField(
+              editcontroller: signinprovider.emailController,
+              labelText: "email",
+              obscureText: false,
             ),
+
+            ///Password TextField
+            CustomTextField(
+              editcontroller: signinprovider.passwordController,
+              labelText: "password",
+              obscureText: true,
+            ),
+
             SizedBox(height: 16),
-            Consumer<SignInViewModel>(
-              builder: (context, model, _) => ElevatedButton(
-                onPressed: () => model.signIn(context),
-                child: Text('Sign In'),
-              ),
+            ElevatedButton(
+              onPressed: () => signinprovider.signIn(context),
+              child: Text('Sign In'),
             ),
+
             CustomText(
               content: "Do not have account:",
               size: 16,
             ),
             GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => SignupPage(),
-                    ),
-                  );
-                },
+                onTap: () => signinprovider.redirectSignupPage(context),
                 child: Text(
                   "Signup",
                   style: TextStyle(color: Colors.blue),
@@ -52,18 +52,6 @@ class SignInPage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class EmailField extends StatelessWidget {
-  const EmailField({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: context.read<SignInViewModel>().emailController,
-      decoration: InputDecoration(labelText: 'email'),
     );
   }
 }
