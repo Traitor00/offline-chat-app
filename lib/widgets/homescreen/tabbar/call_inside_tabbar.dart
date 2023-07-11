@@ -8,8 +8,7 @@ class Call extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CallViewModel callProvider =
-        Provider.of<CallViewModel>(context, listen: false);
+    CallViewModel callProvider = context.read<CallViewModel>();
     return FutureBuilder(
       future: callProvider.fetchCallHistory(),
       builder: (context, snapshot) {

@@ -18,37 +18,41 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         "$content",
         style: TextStyle(color: Colors.black),
       ),
-      actions: [
-        ismessage
-            ? Row(
-                children: const [
-                  Icon(
-                    Icons.call,
-                    color: Colors.black,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  )
-                ],
-              )
-            : Row(
-                children: const [
-                  Icon(
-                    Icons.search,
-                    color: Colors.black,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(
-                    Icons.person_add,
-                    color: Colors.black,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  )
-                ],
-              )
+      actions: [ismessage ? _callIcon() : _seachIconAndPersonIcon()],
+    );
+  }
+
+  Row _seachIconAndPersonIcon() {
+    return Row(
+      children: const [
+        Icon(
+          Icons.search,
+          color: Colors.black,
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        Icon(
+          Icons.person_add,
+          color: Colors.black,
+        ),
+        SizedBox(
+          width: 10,
+        )
+      ],
+    );
+  }
+
+  Row _callIcon() {
+    return Row(
+      children: const [
+        Icon(
+          Icons.call,
+          color: Colors.black,
+        ),
+        SizedBox(
+          width: 20,
+        )
       ],
     );
   }

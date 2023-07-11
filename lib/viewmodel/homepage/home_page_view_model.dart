@@ -10,13 +10,13 @@ class HomePageViewModel extends ChangeNotifier {
     _userId = userId;
   }
 
-  /// this function is for fetching message to display in homepages messages tabbar of message nav
+  /// This function is for fetching message to display in homepages messages tabbar of message nav
   Future<List<Combined>> messageFetch() async {
     DatabaseHelper dbHelper = DatabaseHelper();
     return await dbHelper.fetchMessagesSortedByDate(userId);
   }
 
-  ///function to fetch logged in users profile
+  /// Function to fetch logged in users profile
   Future<User?> fetchUserProfile() async {
     DatabaseHelper dbHelper = DatabaseHelper();
     return await dbHelper.getUserById(userId);

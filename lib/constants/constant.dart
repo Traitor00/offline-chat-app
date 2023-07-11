@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
-BorderRadius bottomLeftConstant = BorderRadius.only(
+BorderRadius bottomLeftBorderRadius = BorderRadius.only(
     bottomLeft: Radius.circular(20),
     bottomRight: Radius.circular(7),
     topLeft: Radius.circular(7),
     topRight: Radius.circular(7));
 
-BorderRadius topLeftConstant = BorderRadius.only(
+BorderRadius topLeftBorderRadius = BorderRadius.only(
     bottomLeft: Radius.circular(7),
     bottomRight: Radius.circular(7),
     topLeft: Radius.circular(20),
     topRight: Radius.circular(7));
 
-BorderRadius bottomRightConstant = BorderRadius.only(
+BorderRadius bottomRightBorderRadius = BorderRadius.only(
     bottomLeft: Radius.circular(7),
     bottomRight: Radius.circular(20),
     topLeft: Radius.circular(7),
     topRight: Radius.circular(7));
 
-BorderRadius topRightConstant = BorderRadius.only(
+BorderRadius topRightBorderRadius = BorderRadius.only(
     bottomLeft: Radius.circular(7),
     bottomRight: Radius.circular(7),
     topLeft: Radius.circular(7),

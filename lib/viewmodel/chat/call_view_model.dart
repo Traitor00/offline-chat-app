@@ -28,40 +28,33 @@ class CallViewModel extends ChangeNotifier {
     receiverno = _receiverno ?? "";
   }
 
-  ///Fuction to get receivers mobile no
+  /// Fuction to get receivers mobile no
   Future<String?> getReceiverNumber() async {
     DatabaseHelper dbHelper = DatabaseHelper();
     _receiverno = await dbHelper.getUserNumer(receiverid);
-    if (kDebugMode) {
-      print("receiver no: $_receiverno");
-    }
 
     return await dbHelper.getUserNumer(receiverid);
   }
 
-  ///to get senders number
+  /// To get senders number
   Future<String?> getSenderNumber() async {
     DatabaseHelper dbHelper = DatabaseHelper();
     _callerno = await dbHelper.getUserNumer(senderid);
-    if (kDebugMode) {
-      print("caller no: $_callerno");
-    }
+
     return await dbHelper.getUserNumer(senderid);
   }
 
-  ///using url launcher to open phone app in mobile
+  /// Using url launcher to open phone app in mobile
   Future<void> makePhoneCall() async {
     final Uri launchUri = Uri(
       scheme: 'tel',
       path: receiverno,
     );
-    if (kDebugMode) {
-      print("make phonecall:$receiverno");
-    }
+
     await launchUrl(launchUri);
   }
 
-  ///To add call history to database
+  /// To add call history to database
   void callHistoryAdd() async {
     DatabaseHelper dbHelper = DatabaseHelper();
     final CallHistory callHistory = CallHistory(
@@ -75,7 +68,7 @@ class CallViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  ///fetch call history
+  /// Fetch call history
   Future<List<CallHistory>> fetchCallHistory() async {
     DatabaseHelper dbHelper = DatabaseHelper();
     return await dbHelper.getCallHistory(callerno);

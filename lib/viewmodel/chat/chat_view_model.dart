@@ -19,11 +19,11 @@ class ChatProvider extends ChangeNotifier {
     _receiverId = receiverId;
   }
 
-  ///Text Editing Controller for message textfield
+  /// Text Editing Controller for message textfield
   TextEditingController messageController = TextEditingController();
-  dynamic imagetemporary;
+  String? imagetemporary;
 
-  ///Function to pick Image
+  /// Function to pick Image
   Future getimage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) return;
@@ -31,13 +31,20 @@ class ChatProvider extends ChangeNotifier {
     this.imagetemporary = imagetemporary;
   }
 
-  ///function to clear selected image
-  void clearSelectedImage() {
-    imagetemporary = null;
+  /// Function fo fetch message in chat page
+  Future<List<Combined>> messageFetch() async {
+    DatabaseHelper dbHelper = DatabaseHelper();
+
+    return await dbHelper.fetchConversation(senderId, receiverId);
   }
 
-  ///Function to send message data to database
-  void doChat() async {
+  void toggleUsers(int senderid, int receiverid) {
+    _senderId = receiverid;
+    _receiverId = senderid;
+  }
+
+  /// Function to send message data to database
+  void messageSend() async {
     String messagetext = messageController.text;
     messageController.clear();
 
@@ -49,18 +56,12 @@ class ChatProvider extends ChangeNotifier {
         updatedAt: DateTime.now().toIso8601String(),
         img: imagetemporary);
 
-    ///to make the image selected  to null  so that no same image cant be inserted to null image
+    /// To make the image selected  to null  so that no same image cant be inserted to null image
     imagetemporary = null;
 
     await dbHelper.insertMessage(message);
 
+    /// Whenever I will call dochat This notifylistner will notify the  listner widgets that data has changed
     notifyListeners();
-  }
-
-  /// Function fo fetch message in chat page
-  Future<List<Combined>> messageFetch() async {
-    DatabaseHelper dbHelper = DatabaseHelper();
-
-    return await dbHelper.fetchConversation(senderId, receiverId);
   }
 }

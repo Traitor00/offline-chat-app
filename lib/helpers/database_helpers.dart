@@ -27,12 +27,11 @@ class DatabaseHelper {
     return _database!;
   }
 
-  ///initializing Database
+  ///initializing Database to send database to android data folders
+
   Future<Database> _initDatabase() async {
     var downloadsDirectory = await getExternalStorageDirectory();
     String customDatabasePath = '${downloadsDirectory!.path}/my_database.db';
-
-    /// to send database to android data folders
 
     /*String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'my_database.db');*/

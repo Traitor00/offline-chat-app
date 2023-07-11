@@ -22,30 +22,8 @@ class MessagesList extends StatelessWidget {
             "All Chats",
             style: TextStyle(color: Colors.black),
           ),
-          bottom: TabBar(
-              indicatorPadding: EdgeInsets.only(right: 5, top: 15),
-              indicator: DotIndicator(color: Colors.blue, radius: 5),
-              tabs: const [
-                Tab(child: CustomText(content: "Message", size: 20)),
-                Tab(child: CustomText(content: "Group", size: 20)),
-                Tab(child: CustomText(content: "Call", size: 20)),
-              ]),
-          actions: const [
-            Icon(
-              Icons.search,
-              color: Colors.black,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Icon(
-              Icons.person_add,
-              color: Colors.black,
-            ),
-            SizedBox(
-              width: 10,
-            )
-          ],
+          bottom: _tabBar(),
+          actions: _searchIconAndPersonIcon,
         ),
         body: TabBarView(children: const [
           MessageinsideTabbar(),
@@ -54,5 +32,35 @@ class MessagesList extends StatelessWidget {
         ]),
       ),
     );
+  }
+
+  List<Widget> get _searchIconAndPersonIcon {
+    return const [
+      Icon(
+        Icons.search,
+        color: Colors.black,
+      ),
+      SizedBox(
+        width: 10,
+      ),
+      Icon(
+        Icons.person_add,
+        color: Colors.black,
+      ),
+      SizedBox(
+        width: 10,
+      )
+    ];
+  }
+
+  TabBar _tabBar() {
+    return TabBar(
+        indicatorPadding: EdgeInsets.only(right: 5, top: 15),
+        indicator: DotIndicator(color: Colors.blue, radius: 5),
+        tabs: const [
+          Tab(child: CustomText(content: "Message", size: 20)),
+          Tab(child: CustomText(content: "Group", size: 20)),
+          Tab(child: CustomText(content: "Call", size: 20)),
+        ]);
   }
 }

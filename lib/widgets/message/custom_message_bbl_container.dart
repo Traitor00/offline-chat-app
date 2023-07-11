@@ -18,21 +18,21 @@ class CustomMessageContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DateTime time = DateTime.parse(message.updatedat ?? "");
-    GlobalKey mywidgetkey = GlobalKey();
 
     return Container(
-      key: mywidgetkey,
       padding: EdgeInsets.all(8.0),
       margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
       decoration: BoxDecoration(
           color: isMe ? Colors.blue[100] : Colors.grey[300],
+          // Here we checked if  two messages are continious and send within timespan of 2 min
+          //give border radius to container
           borderRadius: isMe
               ? continuousMessage
-                  ? bottomLeftConstant
-                  : topLeftConstant
+                  ? bottomLeftBorderRadius
+                  : topLeftBorderRadius
               : continuousMessage
-                  ? bottomRightConstant
-                  : topRightConstant),
+                  ? bottomRightBorderRadius
+                  : topRightBorderRadius),
       child: Column(
         crossAxisAlignment:
             isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,

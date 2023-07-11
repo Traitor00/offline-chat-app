@@ -3,15 +3,15 @@ import 'package:provider/provider.dart';
 import 'package:chatapp/viewmodel/chat/chat_view_model.dart';
 import 'package:flutter/material.dart';
 
-class ChatPgBtmContainer extends StatelessWidget {
-  final int receiverIid;
-  final int senderIid;
-  const ChatPgBtmContainer(
-      {required this.receiverIid, required this.senderIid, super.key});
+class ChatPageBottomContainer extends StatelessWidget {
+  final int receiverid;
+  final int senderid;
+  const ChatPageBottomContainer(
+      {required this.receiverid, required this.senderid, super.key});
 
   @override
   Widget build(BuildContext context) {
-    ChatProvider provider = Provider.of<ChatProvider>(context, listen: false);
+    ChatProvider chatProviderReader = context.read<ChatProvider>();
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.0),
       decoration: BoxDecoration(
@@ -21,43 +21,56 @@ class ChatPgBtmContainer extends StatelessWidget {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 1,
             blurRadius: 5,
-            //offset: Offset(0, 2),
           ),
         ],
       ),
       child: Row(
         children: [
-          IconButton(
-              onPressed: () {
-                provider.getimage();
-                provider.clearSelectedImage();
-              },
-              icon: Icon(Icons.add_a_photo)),
-          Expanded(
-            child: TextField(
-              controller: provider.messageController,
-              decoration: InputDecoration.collapsed(
-                hintText: 'Type your message...',
-              ),
-            ),
-          ),
-          IconButton(
-              enableFeedback: true,
-              onPressed: () {
-                provider.senderId = receiverIid;
-                provider.receiverId = senderIid;
-              },
-              icon: Icon(
-                Icons.switch_right_sharp,
-              )),
-          CustomIconButton(
-              icon: Icon(Icons.send),
-              onPressed: () {
-                provider.doChat();
-                provider.messageFetch();
-              }),
+          _imageSelectorIcon(chatProviderReader),
+          _messageTypingTextField(chatProviderReader),
+          _usersSwitchingIcon(chatProviderReader),
+          _messageSendingIcon(chatProviderReader),
         ],
       ),
+    );
+  }
+
+  CustomIconButton _messageSendingIcon(ChatProvider chatProviderReader) {
+    return CustomIconButton(
+        icon: Icon(Icons.send),
+        onPressed: () {
+          chatProviderReader.messageSend();
+        });
+  }
+
+  IconButton _usersSwitchingIcon(ChatProvider chatProviderReader) {
+    return IconButton(
+        enableFeedback: true,
+        onPressed: () {
+          chatProviderReader.toggleUsers(senderid, receiverid);
+        },
+        icon: Icon(
+          Icons.switch_right_sharp,
+        ));
+  }
+
+  Expanded _messageTypingTextField(ChatProvider chatProviderReader) {
+    return Expanded(
+      child: TextField(
+        controller: chatProviderReader.messageController,
+        decoration: InputDecoration.collapsed(
+          hintText: 'Type your message...',
+        ),
+      ),
+    );
+  }
+
+  IconButton _imageSelectorIcon(ChatProvider chatProviderReader) {
+    return IconButton(
+      onPressed: () {
+        chatProviderReader.getimage();
+      },
+      icon: Icon(Icons.add_a_photo),
     );
   }
 }

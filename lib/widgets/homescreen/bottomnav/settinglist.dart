@@ -8,8 +8,7 @@ class SettingList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HomePageViewModel messageProvider =
-        Provider.of<HomePageViewModel>(context, listen: false);
+    HomePageViewModel messageProvider = context.read<HomePageViewModel>();
     return Scaffold(
         appBar: CustomAppBar(content: "Setting", ismessage: false),
         body: FutureBuilder(

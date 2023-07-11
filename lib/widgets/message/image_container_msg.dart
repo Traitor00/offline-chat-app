@@ -16,18 +16,7 @@ class ImageContainerMessage extends StatelessWidget {
         padding: EdgeInsets.all(8),
         child: Column(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.file(
-                File(message.img ?? ''),
-                errorBuilder: (context, error, stackTrace) {
-                  return Image.asset('assets/Image_not_available.png');
-                },
-                fit: BoxFit.cover,
-                height: 200,
-                width: 150,
-              ),
-            ),
+            _imageRectangularContainer(),
             Text(
               "${timeago.format(time, locale: 'en_short')} ago",
               style: leadingTime,
@@ -37,5 +26,25 @@ class ImageContainerMessage extends StatelessWidget {
             )
           ],
         ));
+  }
+
+  ClipRRect _imageRectangularContainer() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Image.file(
+        File(message.img ?? ''),
+        errorBuilder: (context, error, stackTrace) {
+          return Image.asset(
+            'assets/Image_not_available.png',
+            fit: BoxFit.contain,
+            height: 200,
+            width: 150,
+          );
+        },
+        fit: BoxFit.cover,
+        height: 200,
+        width: 150,
+      ),
+    );
   }
 }

@@ -7,11 +7,28 @@ import 'package:chatapp/widgets/homescreen/bottomnav/userlist.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final int userid;
-  HomePage({required this.userid, super.key});
+  const HomePage({required this.userid, super.key});
 
-  /// List of Navbars pages
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    HomePageViewModel messageProvider = context.read<HomePageViewModel>();
+    messageProvider.userId = widget.userid;
+
+    // Setting value to senderid  of callprovider to fetch call history by using
+    CallViewModel callProvider = context.read<CallViewModel>();
+    callProvider.senderid = widget.userid;
+    callProvider.getSenderNumber();
+    super.initState();
+  }
+
+  // List of Navbars pages
   final currentTab = [
     UserList(),
     MessagesList(),
@@ -20,37 +37,29 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BottomNavigationBarProvider provider =
-        Provider.of<BottomNavigationBarProvider>(context);
-    HomePageViewModel messageProvider =
-        Provider.of<HomePageViewModel>(context, listen: false);
-    messageProvider.userId = userid;
-
-    ///setting value to senderid  of callprovider to fetch call history by using
-    CallViewModel callProvider =
-        Provider.of<CallViewModel>(context, listen: false);
-
-    callProvider.senderid = userid;
-
-    ///
-    callProvider.getSenderNumber();
-
+    BottomNavigationBarProvider bottomnavProvider =
+        context.read<BottomNavigationBarProvider>();
     return Scaffold(
-      body: currentTab[provider.currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        enableFeedback: true,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        currentIndex: provider.currentIndex,
-        onTap: (index) {
-          provider.currentIndex = index;
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "User"),
-          BottomNavigationBarItem(icon: Icon(Icons.message), label: "Message"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting")
-        ],
-      ),
+      body: currentTab[bottomnavProvider.currentIndex],
+      bottomNavigationBar: _bottomNavigationBar(context, bottomnavProvider),
+    );
+  }
+
+  BottomNavigationBar _bottomNavigationBar(
+      BuildContext context, BottomNavigationBarProvider bottomnavProvider) {
+    return BottomNavigationBar(
+      enableFeedback: true,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      currentIndex: context.watch<BottomNavigationBarProvider>().currentIndex,
+      onTap: (index) {
+        bottomnavProvider.currentIndex = index;
+      },
+      items: const [
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: "User"),
+        BottomNavigationBarItem(icon: Icon(Icons.message), label: "Message"),
+        BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting")
+      ],
     );
   }
 }
